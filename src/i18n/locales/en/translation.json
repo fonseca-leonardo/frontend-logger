@@ -1,0 +1,21 @@
+{
+    "Send": "Send",
+    "Email": "E-mail",
+    "Password": "Password",
+    "Translations": "Translations",
+    "API Calls": "API Calls",
+    "Calls": "Calls",
+    "Dashboard": "Dashboard",
+    "Cached": "Cached",
+    "Saved": "Saved",
+    "Saved_plural": "Saved",
+    "Start Date": "Start Date",
+    "End Date": "End Date",
+    "Request Total x Status Code": "Request Total x Status Code",
+    "Status Code": "Status Code",
+    "barChartReport": "{{total}} calls with status code: {{statusCode}}",
+    "Request Total x Time": "Request Total x Time",
+    "dateReport": "On {{date}}",
+    "callsReport": "{{total}} calls was made",
+    "Status Code counter": "Status Code counter"
+}
