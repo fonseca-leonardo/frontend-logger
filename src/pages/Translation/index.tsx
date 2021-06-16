@@ -61,6 +61,33 @@ export default function Translation() {
                 <TranslationContainer>
                     <h2>{translationRequest?.data.default.language}</h2>
                 </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
+                <TranslationContainer>
+                    <h2>{translationRequest?.data.default.language}</h2>
+                </TranslationContainer>
             </TranslationList>
 
         </PageContainer>

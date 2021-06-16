@@ -15,9 +15,7 @@ export const TranslationContainer = styled.div`
     padding: 12px 24px;
     border-radius: 4px;
 
-    width: 380px;
-    height: 100%;
-
+    min-width: 380px;
     h2 {
         text-transform: uppercase;
     }
@@ -25,6 +23,13 @@ export const TranslationContainer = styled.div`
 
 export const TranslationList = styled.div`
     display: flex;
+    overflow-x: auto;
+    padding: 0px 0px 8px 0px;
+
+    width: 100%;
+    height: 717px;
+
+
     ${TranslationContainer} {
         margin-right: 20px;
     }
