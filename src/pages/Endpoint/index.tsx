@@ -8,8 +8,9 @@ import { useTranslation } from 'react-i18next';
 import { PageContainer } from '../../components/PageContainer';
 
 import { TitleContainer, StyledDatePicker, ListContainer,
-    StatusContainer, EndpointContainer, Row, Wrapper, ExpandableRow, Expand, ExpandContent } from './styles';
+    StatusContainer, EndpointContainer, Row, Wrapper, ExpandableRow, Expand, ExpandContent, SearchContainer } from './styles';
 import { useTheme } from '../../contexts/theme';
+import Button from '../../components/Button';
 
 interface IEndpointsRequest {
     data: Array<{
@@ -120,7 +121,7 @@ export default function EndPoint() {
         <PageContainer>
             <TitleContainer>
                 <h1>{t('Calls')}</h1>
-                <div>
+                <SearchContainer>
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={selectedLocale}>
                         <StyledDatePicker
                             value={startDate}
@@ -135,7 +136,10 @@ export default function EndPoint() {
                             format="dd/MM/yyyy"
                             label={t('End Date')} />
                     </MuiPickersUtilsProvider>
-                </div>
+                    <Button>
+                        {t('Reload')}
+                    </Button>
+                </SearchContainer>
             </TitleContainer>
             <Wrapper style={{display: 'flex', justifyContent: 'space-between'}}>
                 <ListContainer>

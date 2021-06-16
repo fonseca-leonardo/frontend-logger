@@ -21,5 +21,6 @@
     "Request Total x Time": "Nº Request x Tempo",
     "dateReport": "No dia {{date}}",
     "callsReport": "Foram realizadas {{total}} chamadas.",
-    "Status Code counter": "Contador de status code"
+    "Status Code counter": "Contador de status code",
+    "Reload": "Recarregar"
 }

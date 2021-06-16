@@ -51,7 +51,7 @@ export default function LoginPage() {
                         ({ errors, touched }) => (
                             <Form>
                                 <section>
-                                    <span>{t('email')}</span>
+                                    <span>{t('E-mail')}</span>
                                     <TextInput 
                                         name="Email"
                                         disabled={isLoading}

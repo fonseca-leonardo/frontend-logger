@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Select from 'react-select'; 
+import Select from 'react-select';
+import Flag from 'react-flagkit';
+
 import { CSSObject } from 'styled-components';
 import { useTheme } from '../../contexts/theme';
 
@@ -12,12 +14,23 @@ const Topbar: React.FC = ({ children }) => {
     const { i18n } = useTranslation();
     const { theme } = useTheme();
 
+    const languagesKeysValues: {[x: string]: {value: string; label: any}} = {
+        'pt-BR': {
+            value: 'pt-BR',
+            label: <Flag country="BR"/>,
+        },
+        'en': {
+            value: 'en',
+            label: <Flag country="US"/>
+        }
+    };
+
     const languages = [{
         value: 'pt-BR',
-        label: '🇧🇷',
+        label: <Flag country="BR"/>,
     }, {
         value: 'en',
-        label: '🇺🇸'
+        label: <Flag country="US"/>
     }];
 
     const customStyles = {
@@ -29,7 +42,11 @@ const Topbar: React.FC = ({ children }) => {
 
 
         }),
-        control: (provided:CSSObject) => ({
+        singleValue: (provided: CSSObject) => ({
+            ...provided,
+            display: 'flex',
+        }),
+        control: (provided: CSSObject) => ({
             ...provided,
             color: 'black',
             background: 'transparent',
@@ -42,7 +59,7 @@ const Topbar: React.FC = ({ children }) => {
                 boxShadow: theme.optionColor,
 
             },
-            width: 40,
+            width: 50,
 
         }),
         menu: (provided:CSSObject) => ({
@@ -76,7 +93,7 @@ const Topbar: React.FC = ({ children }) => {
                 <h1>Logger</h1>
                 <div>
                     <Select
-                        defaultValue={languages[1]}
+                        defaultValue={languagesKeysValues[document.documentElement.lang || 'pt-BR']}
                         options={languages}
                         styles={customStyles}
                         onChange={(e) => i18n.changeLanguage(e?.value || 'en')}>

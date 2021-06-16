@@ -139,3 +139,17 @@ export const Wrapper = styled.div`
         margin-left: 16px;
     };
 `;
+
+export const SearchContainer = styled.div`
+    display: flex;
+    align-items: flex-end;
+    
+    justify-content: space-evenly;
+    
+    button {
+        height: 32px;
+        width: fit-content;
+        margin-left: 12px;
+        box-shadow: none;
+    }
+`;

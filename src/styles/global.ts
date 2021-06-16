@@ -6,7 +6,10 @@ export default createGlobalStyle`
         font-family: Nunito;
         font-size: 14px;
         margin: 0;
+        background: ${({ theme }) => theme.background};
+        overflow: overlay;
     }
+    
 
     body > #root {
         height: 100%;
@@ -43,6 +46,6 @@ export default createGlobalStyle`
 
     ::-webkit-scrollbar-track{
         background: transparent;
-        border-radius: 8px;
+        
     }
 `;

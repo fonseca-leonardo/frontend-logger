@@ -17,5 +17,6 @@
     "Request Total x Time": "Request Total x Time",
     "dateReport": "On {{date}}",
     "callsReport": "{{total}} calls was made",
-    "Status Code counter": "Status Code counter"
+    "Status Code counter": "Status Code counter",
+    "Reload": "Reload"
 }
