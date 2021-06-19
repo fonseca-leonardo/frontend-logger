@@ -37,7 +37,7 @@ export const Row = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     min-height: 60px;
     border-radius: 10px;
     padding: 10px 30px;
@@ -60,7 +60,6 @@ export const Expand = styled.div`
     justify-content: space-around;
     align-items: center;
 
-
     width: 100%;
 
     transition: all 0.2s ease;
@@ -71,9 +70,7 @@ export const Expand = styled.div`
     }
 `;
 
-export const ExpandContent = styled.div`
-
-`;
+export const ExpandContent = styled.div``;
 
 interface ExpandableRowProps {
     selected: boolean;
@@ -87,7 +84,7 @@ export const ExpandableRow = styled.div<ExpandableRowProps>`
     border-radius: 10px;
     padding: 10px 30px;
     transition: all 0.2s ease;
-    height: ${({ selected }) => selected ? '360px' : '60px'};
+    height: ${({ selected }) => (selected ? '360px' : '60px')};
 
     transition: all 0.2s ease;
 `;
@@ -95,8 +92,7 @@ export const ExpandableRow = styled.div<ExpandableRowProps>`
 export const EndpointContainer = styled.div`
     width: 100%;
     display: flex;
-    align-items: center;
-    ;
+    align-items: center; ;
 `;
 
 export const StatusContainer = styled.div`
@@ -107,7 +103,6 @@ export const StatusContainer = styled.div`
     justify-content: space-between;
     text-align: center;
 `;
-
 
 export const ListContainer = styled.div`
     & > span {
@@ -133,19 +128,19 @@ export const Wrapper = styled.div`
 
     ${ListContainer}:first-child {
         margin-right: 16px;
-    };
+    }
 
     ${ListContainer}:last-child {
         margin-left: 16px;
-    };
+    } ;
 `;
 
 export const SearchContainer = styled.div`
     display: flex;
     align-items: flex-end;
-    
+
     justify-content: space-evenly;
-    
+
     button {
         height: 32px;
         width: fit-content;

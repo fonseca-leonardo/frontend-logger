@@ -1,9 +1,10 @@
 {
+    "Sign In~": "Faça seu login",
     "Send": "Enviar",
     "E-mail": "E-mail",
     "Password": "Senha",
     "Translations": "Traduções",
-    "APIs Calls": "Chamadas às API's",
+    "APIs Calls": "Chamadas às APIs",
     "Calls": "Chamadas",
     "Dashboard": "Dashboard",
     "Cached": "Em Cache",
@@ -22,5 +23,13 @@
     "dateReport": "No dia {{date}}",
     "callsReport": "Foram realizadas {{total}} chamadas.",
     "Status Code counter": "Contador de status code",
-    "Reload": "Recarregar"
+    "Reload": "Recarregar",
+    "Remove": "Apagar",
+    "Save": "Salvar",
+    "Male singular": "Singular masculino",
+    "Male plural": "Plural masculino",
+    "Female singular": "Singular feminino",
+    "Female plural": "Plural feminino",
+    "Singular": "Singular",
+    "Plural": "Plural"
 }

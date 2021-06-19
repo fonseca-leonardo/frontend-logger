@@ -14,17 +14,20 @@ interface Props {
 const MenuItem: React.FC<Props> = ({ route, title, Icon }) => {
     const history = useHistory();
     const { theme } = useTheme();
-    
+
     return (
         <li>
-            <Link style={{textDecoration: 'none'}} to={route}>
-                <StyledContainer isCurrentPage={history.location.pathname === route} theme={theme}>
-                    <Icon style={{width: 22, height: 22}} />
-                        <span>{title}</span>
+            <Link style={{ textDecoration: 'none' }} to={route}>
+                <StyledContainer
+                    isCurrentPage={history.location.pathname === route}
+                    theme={theme}
+                >
+                    <Icon style={{ width: 22, height: 22 }} />
+                    <span>{title}</span>
                 </StyledContainer>
             </Link>
         </li>
-    )
-}
+    );
+};
 
-export default MenuItem
+export default MenuItem;
