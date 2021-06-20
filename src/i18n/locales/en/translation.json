@@ -1,6 +1,7 @@
 {
     "Sign In": "Sign In",
     "Send": "Send",
+    "Download translations": "Download translations",
     "Email": "E-mail",
     "Password": "Password",
     "Translations": "Translations",
@@ -21,11 +22,20 @@
     "Status Code counter": "Status Code counter",
     "Reload": "Reload",
     "Remove": "Remove",
-    "Save": "Salvar",
+    "Save": "Save",
     "Male singular": "Male singular",
     "Male plural": "Male singular",
     "Female singular": "Female singular",
     "Female plural": "Female singular",
     "Singular": "Singular",
-    "Plural": "Plural"
+    "Plural": "Plural",
+    "Are you sure": "Are you sure?",
+    "Confirm": "Confirm",
+    "Cancel": "Cancel",
+    "Success": "Success",
+    "Alert": "Alert",
+    "Error": "Error",
+    "Close": "Close",
+    "New translation": "New translation",
+    "New language": "New language"
 }

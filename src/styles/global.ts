@@ -16,15 +16,14 @@ export default createGlobalStyle`
 
         overflow: overlay;
 
+        overflow-y: hidden;
     }
-
-    
-
 
 
     body > #root {
 
         height: 100%;
+
 
     }
 
@@ -35,6 +34,8 @@ export default createGlobalStyle`
         display: flex;
 
         height: 100%;
+
+
 
     }
 

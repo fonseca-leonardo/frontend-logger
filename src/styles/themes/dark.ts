@@ -6,7 +6,7 @@ export default {
     gradient: ['#934bea', '#c147c1', '#f64294'],
     boxShadow: '0 0 40px 3px #00000073',
     lightColor: '#ffffff0d',
-    darkColor: '#434247',
+    darkColor: '#00000026',
     mutedColor: '#acabad',
     spinnerColor: '#fff',
     thumbColor: '#524d4d',
@@ -16,6 +16,7 @@ export default {
     successColor: '#43a047',
     warningColor: '#ff9800',
     errorColor: '#d32f2f',
+    infoColor: '#2f8fd3',
 
     ghostButton: {
         background: 'black',

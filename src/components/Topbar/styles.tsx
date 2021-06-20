@@ -17,7 +17,7 @@ export const Container = styled.header`
 
     top: 0;
 
-    z-index: 5;
+    z-index: 2;
 
     justify-content: space-between;
 

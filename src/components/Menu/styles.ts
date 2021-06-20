@@ -5,7 +5,7 @@ export const StyledCard = styled.div`
 
     min-width: 250px;
 
-    height: 800px;
+    height: 790px;
 
     margin-right: 16px;
 

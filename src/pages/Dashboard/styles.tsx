@@ -37,7 +37,7 @@ export const TitleContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 26px;
+    margin-bottom: 8px;
 
     ${StyledDatePicker}:first-child {
         margin-right: 16px;

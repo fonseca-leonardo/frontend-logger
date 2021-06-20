@@ -3,6 +3,8 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import { useTranslation } from 'react-i18next';
 
 import { Container } from './styles';
+import IconButton from '../../../../components/IconButton';
+import { useTheme } from '../../../../contexts/theme';
 
 interface Props {
     title: string;
@@ -11,15 +13,14 @@ interface Props {
 
 const TranslationTitle: React.FC<Props> = ({ title, onDelete }) => {
     const { t } = useTranslation();
+    const { theme } = useTheme();
 
     return (
         <Container>
             <h3>{title}</h3>
-            <TiDeleteOutline
-                title={t('Remove')}
-                size={24}
-                onClick={() => onDelete()}
-            />
+            <IconButton title={t('Remove')} color={theme.errorColor}>
+                <TiDeleteOutline size={24} onClick={() => onDelete()} />
+            </IconButton>
         </Container>
     );
 };

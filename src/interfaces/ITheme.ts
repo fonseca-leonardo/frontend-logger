@@ -30,6 +30,7 @@ interface ITheme {
     spinnerColor: string;
     successColor: string;
     warningColor: string;
+    infoColor: string;
     errorColor: string;
     thumbColor: string;
     optionColor: string;

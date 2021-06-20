@@ -1,5 +1,5 @@
+import styled, { css } from 'styled-components';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import styled from 'styled-components';
 
 export const StyledDatePicker = styled(KeyboardDatePicker)`
     label {
@@ -55,9 +55,13 @@ export const Row = styled.div`
     }
 `;
 
-export const Expand = styled.div`
+interface ExpandProps {
+    expanded: boolean;
+}
+
+export const Expand = styled.div<ExpandProps>`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
     width: 100%;
@@ -68,9 +72,34 @@ export const Expand = styled.div`
         font-weight: bold;
         cursor: pointer;
     }
+
+    svg {
+        transition: all 0.2s ease;
+
+        ${({ expanded }) =>
+            expanded
+                ? css`
+                      transform: rotate(-180deg);
+                  `
+                : css`
+                      transform: rotate(0deg);
+                  `}
+    }
 `;
 
-export const ExpandContent = styled.div``;
+export const ExpandContent = styled.div`
+    overflow-y: auto;
+
+    height: 268px;
+
+    & > div {
+        padding: 8px 0px;
+    }
+
+    & > div:nth-child(odd) {
+        background-color: ${({ theme }) => theme.darkColor};
+    }
+`;
 
 interface ExpandableRowProps {
     selected: boolean;

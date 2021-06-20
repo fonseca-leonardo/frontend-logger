@@ -9,12 +9,4 @@ export const Container = styled.div`
         margin: 0px;
         margin-bottom: 8px;
     }
-
-    svg {
-        color: ${({ theme }) => theme.errorColor};
-    }
-
-    svg:hover {
-        cursor: pointer;
-    }
 `;

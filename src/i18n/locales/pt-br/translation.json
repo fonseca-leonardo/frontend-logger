@@ -1,6 +1,7 @@
 {
     "Sign In~": "Faça seu login",
     "Send": "Enviar",
+    "Download translations": "Baixar traduções",
     "E-mail": "E-mail",
     "Password": "Senha",
     "Translations": "Traduções",
@@ -31,5 +32,15 @@
     "Female singular": "Singular feminino",
     "Female plural": "Plural feminino",
     "Singular": "Singular",
-    "Plural": "Plural"
+    "Plural": "Plural",
+    "Are you sure": "Tem certeza?",
+    "Confirm": "Confirmar",
+    "Cancel": "Cancelar",
+    "Success": "Sucesso",
+    "Alert": "Alerta",
+    "Error": "Erro",
+    "Close": "Fechar",
+    "New translation": "Nova tradução",
+    "New language": "Nova língua"
+
 }

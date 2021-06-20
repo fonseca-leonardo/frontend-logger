@@ -4,8 +4,10 @@ import DateFnsUtils from '@date-io/date-fns';
 import { startOfMonth, endOfMonth, Locale } from 'date-fns';
 import { ptBR, enUS } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
+import { FiChevronDown } from 'react-icons/fi';
 
 import { PageContainer } from '../../components/PageContainer';
+import EndpointDetail from './components/EndpointDetail';
 
 import {
     TitleContainer,
@@ -13,7 +15,6 @@ import {
     ListContainer,
     StatusContainer,
     EndpointContainer,
-    Row,
     Wrapper,
     ExpandableRow,
     Expand,
@@ -34,6 +35,21 @@ interface IEndpointsRequest {
     }>;
 }
 
+interface IEndpointDetailRequest {
+    data: Array<{
+        id: string;
+        statusCode: number;
+        request: {
+            headers: any;
+            body: any;
+        };
+        response: {
+            headers: any;
+            body: any;
+        };
+    }>;
+}
+
 const localeKeyValues: { [x: string]: Locale } = {
     'pt-BR': ptBR,
     en: enUS,
@@ -45,42 +61,7 @@ export default function EndPoint() {
     );
     const [endDate, setEndDate] = useState<Date | null>(endOfMonth(new Date()));
     const [selectedRow, setSelectedRow] = useState<string | null>(null);
-    const [endpointsRequest] = useState<IEndpointsRequest>({
-        data: [
-            {
-                method: 'POST',
-                total: 1350,
-                endpoint: '/login',
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-            {
-                method: 'GET',
-                endpoint: '/auth',
-                total: 1350,
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-            {
-                method: 'GET',
-                endpoint: '/user/extract',
-                total: 1350,
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-            {
-                method: 'PATCH',
-                endpoint: '/material',
-                total: 1350,
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-        ],
-    });
+
     const [chachedEndpointsRequest] = useState<IEndpointsRequest>({
         data: [
             {
@@ -117,6 +98,101 @@ export default function EndPoint() {
             },
         ],
     });
+    const [endpointDetail] = useState<IEndpointDetailRequest>({
+        data: [
+            {
+                id: '12312',
+                statusCode: 200,
+                request: {
+                    headers: {
+                        Authorization:
+                            'blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabblablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablalablablablablablablablabla',
+                    },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+                response: {
+                    headers: { Authorization: 'blablabla2' },
+                    body: {
+                        hello: 'world',
+                        luquinha: 'doido',
+                        luquinha1: 'doido',
+                        luquinha2: 'doido',
+                        luquinha3: 'doido',
+                        luquinha4: 'doido',
+                        luquinha5: 'doido',
+                        luquinha6: 'doido',
+                        luquinha7: 'doido',
+                        luquinha8: 'doido',
+                        luquinha9: 'doido',
+                        luquinha10: 'doido',
+                        luquinha11: 'doido',
+                        luquinha12: 'doido',
+                        luquinha13: 'doido',
+                    },
+                },
+            },
+            {
+                id: '32445',
+                statusCode: 200,
+                request: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+                response: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+            },
+            {
+                id: '7654754',
+                statusCode: 200,
+                request: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+                response: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+            },
+            {
+                id: '34345',
+                statusCode: 200,
+                request: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+                response: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+            },
+            {
+                id: '53453',
+                statusCode: 200,
+                request: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+                response: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+            },
+            {
+                id: '4356456',
+                statusCode: 200,
+                request: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+                response: {
+                    headers: { Authorization: 'blablabla' },
+                    body: { hello: 'world', luquinha: 'doido' },
+                },
+            },
+        ],
+    });
     const { theme } = useTheme();
     const { t, i18n } = useTranslation();
     const selectedLocale = localeKeyValues[i18n.language || 'en'];
@@ -126,11 +202,14 @@ export default function EndPoint() {
             if (selectedRow === endponint) {
                 setSelectedRow(null);
             } else {
+                fetchEndpointDetail();
                 setSelectedRow(endponint);
             }
         },
         [selectedRow],
     );
+
+    const fetchEndpointDetail = useCallback(() => {}, []);
 
     return (
         <PageContainer>
@@ -169,7 +248,6 @@ export default function EndPoint() {
                 style={{ display: 'flex', justifyContent: 'space-between' }}
             >
                 <ListContainer>
-                    <span style={{ padding: '0px  12px' }}>{t('Cached')}</span>
                     <div
                         style={{
                             overflowY: 'auto',
@@ -183,11 +261,13 @@ export default function EndPoint() {
                             <ExpandableRow
                                 key={request.endpoint + request.method}
                                 selected={selectedRow === request.endpoint}
-                                onClick={() =>
-                                    handleSelectRow(request.endpoint)
-                                }
                             >
-                                <Expand>
+                                <Expand
+                                    expanded={selectedRow === request.endpoint}
+                                    onClick={() =>
+                                        handleSelectRow(request.endpoint)
+                                    }
+                                >
                                     <EndpointContainer>
                                         <span>
                                             {request.method} -{' '}
@@ -200,7 +280,7 @@ export default function EndPoint() {
                                                 color: theme.successColor,
                                             }}
                                         >
-                                            Sucesso
+                                            {t('Success')}
                                             <br /> {request.success}
                                         </span>
                                         <span
@@ -208,61 +288,50 @@ export default function EndPoint() {
                                                 color: theme.warningColor,
                                             }}
                                         >
-                                            Alerta
+                                            {t('Alert')}
                                             <br /> {request.warning}
                                         </span>
                                         <span
                                             style={{ color: theme.errorColor }}
                                         >
-                                            Erro
+                                            {t('Error')}
                                             <br /> {request.error}
                                         </span>
                                     </StatusContainer>
+                                    <FiChevronDown
+                                        style={{ marginLeft: 16 }}
+                                        size={42}
+                                    />
                                 </Expand>
                                 {selectedRow === request.endpoint && (
-                                    <ExpandContent>
-                                        <h1>Luquinha</h1>
-                                    </ExpandContent>
+                                    <>
+                                        <section
+                                            style={{
+                                                width: '100%',
+                                                display: 'flex',
+                                                marginBottom: 8,
+                                            }}
+                                        >
+                                            <span style={{ flex: 1 }}>
+                                                <strong>Request</strong>
+                                            </span>
+                                            <span style={{ flex: 1 }}>
+                                                <strong>Response</strong>
+                                            </span>
+                                        </section>
+                                        <ExpandContent>
+                                            {endpointDetail.data.map(
+                                                (detail) => (
+                                                    <EndpointDetail
+                                                        key={detail.id}
+                                                        detail={detail}
+                                                    />
+                                                ),
+                                            )}
+                                        </ExpandContent>
+                                    </>
                                 )}
                             </ExpandableRow>
-                        ))}
-                    </div>
-                </ListContainer>
-                <ListContainer>
-                    <span style={{ padding: '0px  12px' }}>
-                        {t('Saved_plural')}
-                    </span>
-                    <div
-                        style={{
-                            overflowY: 'auto',
-                            height: '680px',
-                            padding: '4px  4px',
-                            marginTop: 6,
-                            paddingRight: 12,
-                        }}
-                    >
-                        {endpointsRequest.data.map((request) => (
-                            <Row key={request.endpoint + request.method}>
-                                <EndpointContainer>
-                                    <span>
-                                        {request.method} - {request.endpoint}
-                                    </span>
-                                </EndpointContainer>
-                                <StatusContainer>
-                                    <span style={{ color: theme.successColor }}>
-                                        Sucesso
-                                        <br /> {request.success}
-                                    </span>
-                                    <span style={{ color: theme.warningColor }}>
-                                        Alerta
-                                        <br /> {request.warning}
-                                    </span>
-                                    <span style={{ color: theme.errorColor }}>
-                                        Erro
-                                        <br /> {request.error}
-                                    </span>
-                                </StatusContainer>
-                            </Row>
                         ))}
                     </div>
                 </ListContainer>

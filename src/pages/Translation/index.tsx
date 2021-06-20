@@ -1,17 +1,14 @@
 /* eslint-disable no-underscore-dangle */
-import { Form, Formik } from 'formik';
 import React, { useEffect, createRef, useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import handleViewport from 'react-in-viewport';
+import { FiDownload } from 'react-icons/fi';
 
 import BookMark from '../../components/BookMark';
-import Button from '../../components/Button';
 
 import { PageContainer } from '../../components/PageContainer';
-import { TitleContainer } from '../Dashboard/styles';
-import TranslationInput from './components/TranslationInput';
-import TranslationTitle from './components/TranslationTitle';
+import TranslationCard from './components/TranslationCard';
 
 import {
     TranslationList,
@@ -19,7 +16,12 @@ import {
     Container,
     DefaultTranslationContainer,
     BookMarkContainer,
+    TitleContainer,
+    TitleActionsContainer,
 } from './styles';
+import IconButton from '../../components/IconButton';
+import ConfirmDialog from '../../components/ConfirmDialog';
+import Button from '../../components/Button';
 
 interface ITranslation {
     name: string;
@@ -73,7 +75,9 @@ const orderByName = (a: any, b: any) => {
 
 export default function Translation() {
     const { t } = useTranslation();
-    const [translationCardsRefs, setTranslationCardsRefs] = useState<any[]>([]);
+    const [translationCardsRefs, setTranslationCardsRefs] = useState<
+        Array<React.RefObject<HTMLDivElement>>
+    >([]);
     const [unvisableTranslations, setUnvisableTranslations] = useState<
         Array<{ ref: React.RefObject<HTMLDivElement> | null; language: string }>
     >([]);
@@ -85,16 +89,16 @@ export default function Translation() {
                 translations: [
                     {
                         name: 'Send',
-                        singular: 'Send',
-                        plural: 'Sends',
+                        singular: 'Enviar',
+                        plural: 'Enviados',
                     },
                     {
                         name: 'Welcome',
                         male: {
-                            singular: 'Hello again, {{name}}.',
+                            singular: 'Seja bem-vindo, {{name}}.',
                         },
                         female: {
-                            singular: 'Hello again, {{name}}.',
+                            singular: 'Seja bem-vinda, {{name}}.',
                         },
                     },
                 ],
@@ -107,6 +111,7 @@ export default function Translation() {
                         {
                             name: 'Send',
                             singular: 'Enviar',
+                            plural: 'Enviados',
                         },
                         {
                             name: 'Welcome',
@@ -137,6 +142,7 @@ export default function Translation() {
             ].sort(orderByName),
         },
     });
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const handleTranslationVisable = useCallback(
         (visable: boolean, ref: any, language: string) => {
@@ -175,13 +181,27 @@ export default function Translation() {
         );
     }, [translationRequest.data.translations]);
 
+    const handleDialogConfirmation = useCallback(() => {
+        setIsOpen(false);
+    }, []);
+
+    const handleDeleteTranslation = useCallback(() => {
+        setIsOpen(true);
+    }, []);
+
     return (
         <PageContainer>
             <TitleContainer>
                 <h1>{t('Translations')}</h1>
+                <TitleActionsContainer>
+                    <Button>{t('New language')}</Button>
+                    <IconButton title={t('Download translations')}>
+                        <FiDownload size={24} />
+                    </IconButton>
+                </TitleActionsContainer>
             </TitleContainer>
             <Container>
-                <div>
+                <div style={{ marginRight: 46 }}>
                     <BookMarkContainer>
                         {unvisableTranslations.map(
                             (el, index) =>
@@ -202,57 +222,11 @@ export default function Translation() {
                         )}
                     </BookMarkContainer>
                     <DefaultTranslationContainer>
-                        <h2>{translationRequest?.data.default.language}</h2>
-                        <Formik initialValues={{} as any} onSubmit={() => {}}>
-                            <Form>
-                                {translationRequest.data.default.translations.map(
-                                    (translation) => (
-                                        <div key={translation.name}>
-                                            <TranslationTitle
-                                                title={translation.name}
-                                                onDelete={() =>
-                                                    console.log(
-                                                        translation.name,
-                                                    )
-                                                }
-                                            />
-                                            <TranslationInput
-                                                value={translation.singular}
-                                                field={t('Singular')}
-                                            />
-                                            <TranslationInput
-                                                value={translation.plural}
-                                                field={t('Plural')}
-                                            />
-                                            <TranslationInput
-                                                value={
-                                                    translation.male?.singular
-                                                }
-                                                field={t('Male singular')}
-                                            />
-                                            <TranslationInput
-                                                value={
-                                                    translation.female?.singular
-                                                }
-                                                field={t('Female singular')}
-                                            />
-                                            <TranslationInput
-                                                value={translation.male?.plural}
-                                                field={t('Male plural')}
-                                            />
-                                            <TranslationInput
-                                                value={
-                                                    translation.female?.plural
-                                                }
-                                                field={t('Female plural')}
-                                            />
-                                            <hr />
-                                        </div>
-                                    ),
-                                )}
-                                <Button>{t('Save')}</Button>
-                            </Form>
-                        </Formik>
+                        <TranslationCard
+                            onNewTranslation={() => {}}
+                            onDeleteTranslation={handleDeleteTranslation}
+                            translation={translationRequest?.data.default}
+                        />
                     </DefaultTranslationContainer>
                 </div>
                 <TranslationList>
@@ -275,26 +249,25 @@ export default function Translation() {
                                     )
                                 }
                             >
-                                <div ref={translationCardsRefs[index]}>
-                                    <h2>{translation.language}</h2>
-                                    <Formik
-                                        initialValues={{} as any}
-                                        onSubmit={() => {}}
-                                    >
-                                        <Form>
-                                            {translation.translations.map(
-                                                () => (
-                                                    <div />
-                                                ),
-                                            )}
-                                        </Form>
-                                    </Formik>
-                                </div>
+                                <TranslationCard
+                                    onDeleteTranslation={
+                                        handleDeleteTranslation
+                                    }
+                                    cardRef={translationCardsRefs[index]}
+                                    translation={translation}
+                                />
                             </ViewTranslationContainer>
                         ),
                     )}
                 </TranslationList>
             </Container>
+            <ConfirmDialog
+                isOpen={isOpen}
+                onConfirm={() => {
+                    handleDialogConfirmation();
+                }}
+                onClose={() => setIsOpen(false)}
+            />
         </PageContainer>
     );
 }

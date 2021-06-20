@@ -24,10 +24,9 @@ export default {
     optionArrowColor: 'black',
 
     successColor: '#43a047',
-
     warningColor: '#ff9800',
-
-    errorColor: '#d32f2f',
+    errorColor: '#ec5555',
+    infoColor: '#2f8fd3',
 
     ghostButton: {
         background: '#b9b9b9',
