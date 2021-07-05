@@ -20,6 +20,7 @@ interface ThemeCard extends ThemedElement {
 }
 
 interface ITheme {
+    name: 'dark' | 'light';
     gradient: string[];
     background: string;
     lightColor: string;

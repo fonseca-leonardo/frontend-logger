@@ -12,6 +12,7 @@ interface Props {
     children: React.ReactElement<IconProps>;
     title: string;
     color?: string;
+    onClick?(): any;
 }
 
 const IconButton: React.FC<Props> = ({ children, ...props }) => {

@@ -36,7 +36,7 @@ module.exports = {
         'no-unused-vars': ['error', { argsIgnorePattern: '_' }],
         'react/jsx-filename-extension': [
             1,
-            { extensions: ['.js', '.jsx', '.tsx'] },
+            { extensions: ['.js', '.jsx', '.tsx', '.png'] },
         ],
         'no-underscore-dangle': 'off',
         'import/extensions': [
@@ -49,5 +49,6 @@ module.exports = {
                 tsx: 'never',
             },
         ],
+        'jsx-a11y/click-events-have-key-events': 'off',
     },
 };

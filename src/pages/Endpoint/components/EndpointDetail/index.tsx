@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoMdClose } from 'react-icons/io';
 
@@ -30,6 +30,21 @@ interface Props {
 const EndpointDetail: React.FC<Props> = ({ detail }) => {
     const [openDetail, setOpenDetail] = useState<boolean>(false);
     const { t } = useTranslation();
+
+    const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            setOpenDetail(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleUserKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleUserKeyPress);
+        };
+    }, [handleUserKeyPress]);
+
     return (
         <>
             <Container onClick={() => setOpenDetail(true)}>

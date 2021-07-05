@@ -37,5 +37,13 @@
     "Error": "Error",
     "Close": "Close",
     "New translation": "New translation",
-    "New language": "New language"
+    "New language": "New language",
+    "Password is required": "Password is required",
+    "Invalid e-mail": "Invalid e-mail",
+    "E-mail is required": "E-mail is required",
+    "Choose a project": "Choose a project",
+    "New Translate": "New Translate",
+    "Translate name": "Translate name",
+    "Differentiate by gender": "Differentiate by gender",
+    "Differentiate by plural": "Differentiate by plural"
 }

@@ -1,6 +1,8 @@
 import ITheme from '../../interfaces/ITheme';
 
 export default {
+    name: 'light',
+
     background: '#ebebf5',
 
     fontColor: '#565656',

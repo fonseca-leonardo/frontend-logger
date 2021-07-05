@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -12,6 +12,7 @@ import {
 
 interface Props {
     isOpen: boolean;
+    title: string;
     onConfirm(): void;
     onClose(): void;
 }
@@ -19,17 +20,32 @@ interface Props {
 const ConfirmDialog: React.FC<Props> = ({
     children,
     isOpen,
+    title,
     onConfirm,
     onClose,
 }) => {
     const { t } = useTranslation();
+
+    const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            onClose();
+        }
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleUserKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleUserKeyPress);
+        };
+    }, [handleUserKeyPress]);
 
     return isOpen ? (
         <Container>
             <Backdrop />
             <DialogContainer>
                 <DialogTitleContainer>
-                    <h3>{t('Are you sure')}</h3>
+                    <h3>{title}</h3>
                 </DialogTitleContainer>
                 <DialogBodyContainer>{children}</DialogBodyContainer>
                 <DialogActionContainer>

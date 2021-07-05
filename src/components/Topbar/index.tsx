@@ -1,23 +1,26 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-
 import { useTranslation } from 'react-i18next';
-
 import Select from 'react-select';
-
 import Flag from 'react-flagkit';
-
+import { MdExitToApp } from 'react-icons/md';
 import { CSSObject } from 'styled-components';
 
 import { useTheme } from '../../contexts/theme';
-
 import NightDayToggle from '../nightDayToggle';
+import { useSelectedProject } from '../../hooks/selectedProject';
+import { useAuth } from '../../hooks/auth';
 
-import { Container } from './styles';
+import { Container, StyledIconButton } from './styles';
+import ProjectModel from '../../models/ProjectModel';
 
 const Topbar: React.FC = ({ children }) => {
     const { i18n } = useTranslation();
 
     const { theme } = useTheme();
+    const { token, signOut } = useAuth();
+    const { change, selectedProject } = useSelectedProject();
 
     const languagesKeysValues: { [x: string]: { value: string; label: any } } =
         {
@@ -52,9 +55,7 @@ const Topbar: React.FC = ({ children }) => {
             ...provided,
 
             color: 'black',
-
             background: 'transparent',
-
             border: 'none !important',
         }),
 
@@ -127,7 +128,9 @@ const Topbar: React.FC = ({ children }) => {
         <>
             <Container>
                 <h1>Logger</h1>
-
+                <span onClick={() => change({} as ProjectModel)}>
+                    {selectedProject?.name}
+                </span>
                 <div>
                     <Select
                         defaultValue={
@@ -141,9 +144,20 @@ const Topbar: React.FC = ({ children }) => {
                     />
 
                     <NightDayToggle />
+
+                    {token && (
+                        <StyledIconButton
+                            title="Sair"
+                            onClick={() => {
+                                change({});
+                                signOut();
+                            }}
+                        >
+                            <MdExitToApp size={24} />
+                        </StyledIconButton>
+                    )}
                 </div>
             </Container>
-
             {children}
         </>
     );

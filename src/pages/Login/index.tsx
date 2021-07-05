@@ -9,6 +9,8 @@ import { Card } from '../../components/Card';
 import TextInput from '../../components/TextInput';
 
 import { Container } from './styles';
+import AuthService from '../../services/AuthService';
+import { useAuth } from '../../hooks/auth';
 
 interface ILoginValidation {
     email: string;
@@ -24,21 +26,31 @@ const LoginValidationSchema = Yup.object().shape({
 
 export default function LoginPage() {
     const [loginForm, setLoginForm] = useState<ILoginValidation>({
-        email: 'leonardo@gmail.com',
+        email: 'leonardorodriguesfonseca@gmail.com',
         password: '123456',
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const history = useHistory();
     const { t } = useTranslation();
+    const { signIn } = useAuth();
 
     const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setLoginForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     }, []);
 
     const onSubmit = useCallback(
-        (_: ILoginValidation) => {
-            setIsLoading(true);
-            history.push('/dashboard');
+        async (_: ILoginValidation) => {
+            try {
+                setIsLoading(true);
+                const { email, password } = loginForm;
+                const { token } = await AuthService.login({ email, password });
+                signIn({ token });
+                const { data } = await AuthService.authorize();
+                signIn({ user: data, token });
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+            }
         },
         [history],
     );
@@ -58,7 +70,7 @@ export default function LoginPage() {
                             <section>
                                 <span>{t('E-mail')}</span>
                                 <TextInput
-                                    name="Email"
+                                    name="email"
                                     disabled={isLoading}
                                     value={loginForm.email}
                                     onChange={onChange}

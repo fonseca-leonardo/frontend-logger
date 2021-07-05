@@ -8,7 +8,8 @@ import { useTheme } from '../../../../contexts/theme';
 
 interface Props {
     title: string;
-    onDelete(): void;
+    // eslint-disable-next-line no-unused-vars
+    onDelete?(translate: string): void;
 }
 
 const TranslationTitle: React.FC<Props> = ({ title, onDelete }) => {
@@ -18,9 +19,14 @@ const TranslationTitle: React.FC<Props> = ({ title, onDelete }) => {
     return (
         <Container>
             <h3>{title}</h3>
-            <IconButton title={t('Remove')} color={theme.errorColor}>
-                <TiDeleteOutline size={24} onClick={() => onDelete()} />
-            </IconButton>
+            {onDelete && (
+                <IconButton title={t('Remove')} color={theme.errorColor}>
+                    <TiDeleteOutline
+                        size={24}
+                        onClick={() => onDelete(title)}
+                    />
+                </IconButton>
+            )}
         </Container>
     );
 };

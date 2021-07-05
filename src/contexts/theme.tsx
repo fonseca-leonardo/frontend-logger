@@ -8,8 +8,11 @@ import React, {
 } from 'react';
 
 import { ThemeProvider } from 'styled-components';
+import { LocalStorageKeys } from '../constants';
 
 import ITheme from '../interfaces/ITheme';
+import dark from '../styles/themes/dark';
+import light from '../styles/themes/light';
 
 interface ThemeHook {
     theme: ITheme;
@@ -28,20 +31,42 @@ const useTheme = () => {
     return context;
 };
 
-interface ThemeProviderProps {
-    initialTheme: ITheme;
-}
+interface ThemeProviderProps {}
 
 const ThemeContextProvider: React.FC<ThemeProviderProps> = (props) => {
-    const { children, initialTheme } = props;
+    const { children } = props;
 
     const themeContainerRef = useRef<HTMLDivElement>(null);
 
-    const [theme, setTheme] = useState(initialTheme);
+    const [theme, setTheme] = useState<ITheme>(() => {
+        const storageTheme = window.localStorage.getItem(
+            LocalStorageKeys.THEME,
+        );
+        if (storageTheme === 'dark') {
+            return dark;
+        }
+        if (storageTheme === 'light') {
+            return light;
+        }
+        return dark;
+    });
 
-    const [currentTheme, setCurrentTheme] = useState(initialTheme);
+    const [currentTheme, setCurrentTheme] = useState(() => {
+        const storageTheme = window.localStorage.getItem(
+            LocalStorageKeys.THEME,
+        );
+        if (storageTheme === 'dark') {
+            return dark;
+        }
+        if (storageTheme === 'light') {
+            return light;
+        }
+        return dark;
+    });
 
     useEffect(() => {
+        window.localStorage.setItem(LocalStorageKeys.THEME, theme.name);
+
         const prevTheme = document.getElementsByClassName('theme-animation');
 
         const themeAnimation = document.createElement('div');

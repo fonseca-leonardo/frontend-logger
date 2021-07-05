@@ -1,6 +1,7 @@
 import ITheme from '../../interfaces/ITheme';
 
 export default {
+    name: 'dark',
     background: 'linear-gradient(37deg, #2d354a, #352e36)',
     fontColor: '#e2e2e2',
     gradient: ['#934bea', '#c147c1', '#f64294'],

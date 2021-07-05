@@ -4,10 +4,22 @@ import Loader from 'react-loader-spinner';
 
 import { useTheme } from '../../contexts/theme';
 
-export default function Spinner() {
+interface Props {
+    width?: number;
+    height?: number;
+}
+
+const Spinner: React.FC<Props> = ({ height, width }) => {
     const { theme } = useTheme();
 
     return (
-        <Loader type="Oval" color={theme.spinnerColor} height={20} width={20} />
+        <Loader
+            type="Oval"
+            color={theme.spinnerColor}
+            height={height || 20}
+            width={width || 20}
+        />
     );
-}
+};
+
+export default Spinner;

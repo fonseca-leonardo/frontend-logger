@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
+import { LocalStorageKeys } from '../../constants';
 import { useTheme } from '../../contexts/theme';
-
+import toggleCloud from '../../assets/img/toggle_cloud.png';
 import darkTheme from '../../styles/themes/dark';
 
 import lightTheme from '../../styles/themes/light';
@@ -9,7 +9,18 @@ import lightTheme from '../../styles/themes/light';
 import { StyledNightDayToggle } from './style';
 
 const NightDayToggle = () => {
-    const [isLight, setIsLight] = useState(false);
+    const [isLight, setIsLight] = useState<boolean>(() => {
+        const storageTheme = window.localStorage.getItem(
+            LocalStorageKeys.THEME,
+        );
+        if (storageTheme === 'dark') {
+            return false;
+        }
+        if (storageTheme === 'light') {
+            return true;
+        }
+        return false;
+    });
 
     const { setTheme } = useTheme();
 
@@ -55,7 +66,7 @@ const NightDayToggle = () => {
 
                 <img
                     className={`${isLight && 'cloud-day'} mini-cloud`}
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/480623/toggle_cloud.png"
+                    src={toggleCloud}
                     alt=""
                 />
 

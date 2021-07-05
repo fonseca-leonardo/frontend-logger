@@ -7,6 +7,8 @@ interface UserData {
     email: string;
 
     name: string;
+
+    permission: { [x: string]: { [x: number]: number[] } };
 }
 
 interface AuthState {
@@ -23,7 +25,7 @@ interface SignInCredentials {
 interface AuthContextData {
     user?: UserData;
     token?: string;
-    signIn(_: SignInCredentials): Promise<void>;
+    signIn(_: SignInCredentials): void;
     signOut(): void;
 }
 
@@ -49,7 +51,7 @@ const AuthProvider: React.FC = ({ children }) => {
         return {} as AuthState;
     });
 
-    const signIn = useCallback(async ({ token, user }) => {
+    const signIn = useCallback(({ token, user }) => {
         localStorage.setItem(LocalStorageKeys.TOKEN, token);
 
         if (user) {
@@ -59,12 +61,13 @@ const AuthProvider: React.FC = ({ children }) => {
         setData((prev) => ({ ...prev, token, user }));
     }, []);
 
-    const signOut = useCallback(() => {
+    const signOut = () => {
         localStorage.removeItem(LocalStorageKeys.TOKEN);
         localStorage.removeItem(LocalStorageKeys.USER);
+        localStorage.removeItem(LocalStorageKeys.SELECTED_PROJECT);
 
         setData({} as AuthState);
-    }, []);
+    };
 
     return (
         <AuthContext.Provider

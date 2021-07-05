@@ -6,6 +6,7 @@ import {
     RouteProps as ReactDOMRouteProps,
     Redirect,
 } from 'react-router-dom';
+import { useSelectedProject } from '../../hooks/selectedProject';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -27,6 +28,7 @@ const Route: React.FC<RouteProps> = ({
     ...rest
 }) => {
     const { token } = useAuth();
+    const { selectedProject } = useSelectedProject();
 
     return (
         <ReactDOMRoutes
@@ -35,9 +37,12 @@ const Route: React.FC<RouteProps> = ({
                 isPrivate === !!token ? (
                     token ? (
                         <Container>
-                            <Menu />
-
-                            <Component />
+                            {!!selectedProject?._id && (
+                                <>
+                                    <Menu />
+                                    <Component />
+                                </>
+                            )}
                         </Container>
                     ) : (
                         <Component />

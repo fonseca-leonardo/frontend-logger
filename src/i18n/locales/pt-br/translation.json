@@ -41,6 +41,13 @@
     "Error": "Erro",
     "Close": "Fechar",
     "New translation": "Nova tradução",
-    "New language": "Nova língua"
-
+    "New language": "Nova língua",
+    "Password is required": "Senha é ",
+    "Invalid e-mail": "Invalid e-mail",
+    "E-mail is required": "E-mail is required",
+    "Choose a project": "Escolha um projeto",
+    "New Translate": "Nova Tradução",
+    "Translate name": "Nome da tradução",
+    "Differentiate by gender": "Diferenciar por genêro",
+    "Differentiate by plural": "Diferenciar por plural"
 }

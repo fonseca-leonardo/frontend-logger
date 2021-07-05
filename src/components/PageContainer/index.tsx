@@ -9,6 +9,8 @@ export const PageContainer = styled.div`
 
     overflow-y: hidden;
 
+    z-index: 1;
+
     & > div > h1 {
         margin: 0;
 

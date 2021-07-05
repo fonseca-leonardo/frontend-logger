@@ -5,16 +5,18 @@ import './i18n';
 
 import { ThemeContextProvider } from './contexts/theme';
 import GlobalStyle from './styles/global';
-import darkTheme from './styles/themes/dark';
+
 import AppProvider from './hooks/AppProvider';
 import AppRoutes from './routes';
 import Topbar from './components/Topbar';
+import Notifier from './hooks/Notifier';
 
 function App() {
     return (
-        <ThemeContextProvider initialTheme={darkTheme}>
+        <ThemeContextProvider>
             <GlobalStyle />
             <AppProvider>
+                <Notifier />
                 <Topbar>
                     <Router>
                         <AppRoutes />
