@@ -1,10 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { darken } from 'polished';
 
-export const Container = styled.div`
-    background: ${({ theme }) => theme.button.background};
+interface Props {
+    selected: boolean;
+}
 
+export const Container = styled.div<Props>`
     color: white;
 
     padding: 8px;
@@ -25,14 +27,24 @@ export const Container = styled.div`
 
     transition: 0.2s all;
 
-    :hover {
-        cursor: pointer;
+    ${({ selected }) =>
+        selected
+            ? css`
+                  background: ${({ theme }) =>
+                      darken(0.05, theme.successColor || '')};
+                  font-weight: bold;
+              `
+            : css`
+                  background: ${({ theme }) => theme.button.background};
+                  :hover {
+                      cursor: pointer;
 
-        background: ${({ theme }) =>
-            darken(0.07, theme.button.background || '')};
+                      background: ${({ theme }) =>
+                          darken(0.1, theme.button.background || '')};
 
-        font-weight: bold;
+                      font-weight: bold;
 
-        transform: translateX(4px);
-    }
+                      transform: translateX(4px);
+                  }
+              `}
 `;

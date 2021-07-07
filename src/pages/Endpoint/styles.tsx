@@ -92,12 +92,19 @@ export const ExpandContent = styled.div`
 
     height: 268px;
 
+    &:hover {
+        cursor: pointer;
+    }
+
     & > div {
         padding: 8px 0px;
     }
 
     & > div:nth-child(odd) {
         background-color: ${({ theme }) => theme.darkColor};
+
+        &:hover {
+        }
     }
 `;
 

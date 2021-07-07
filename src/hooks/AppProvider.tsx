@@ -6,7 +6,7 @@ import { createStore, combineReducers } from 'redux';
 import { AuthProvider } from './auth';
 import reducers from '../redux/reducers';
 import { SelectedProjectProvider } from './selectedProject';
-import { LoadingPageProvider } from './loadinPage';
+import { LoadingPageProvider } from './loadingPage';
 
 export const store = createStore(combineReducers({ app: reducers }));
 

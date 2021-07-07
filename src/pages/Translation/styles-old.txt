@@ -55,11 +55,7 @@ export const DefaultTranslationContainer = styled.div`
     background: ${({ theme }) => theme.card.solidBackground};
     box-shadow: ${({ theme }) => theme.card.boxShadow};
     border-radius: 8px;
-    flex: 1;
-
-    @media (max-width: 900px) {
-        height: 400px;
-    }
+    min-width: 380px;
 
     form {
         display: flex;
@@ -89,6 +85,11 @@ export const DefaultTranslationContainer = styled.div`
     }
 `;
 
+export const ScrollTranslation = styled.div`
+    overflow-y: auto;
+    padding: 0px 24px;
+    height: 580px;
+`;
 export const BookMarkContainer = styled.div`
     position: absolute;
     top: 24px;
@@ -98,15 +99,35 @@ export const BookMarkContainer = styled.div`
 
 export const Container = styled.div`
     display: flex;
+    overflow-x: auto;
     padding: 0px 0px 8px 0px;
-
-    @media (max-width: 900px) {
-        flex-direction: column;
-    }
-
+    position: relative;
     width: 100%;
 
     & > div {
         position: relative;
+
+        & > ${DefaultTranslationContainer} {
+            min-height: 703px;
+            max-height: 703px;
+        }
+    }
+
+    & > ${TranslationContainer} {
+        margin-right: 20px;
+        height: 703px;
+    }
+`;
+
+export const TranslationList = styled.div`
+    display: flex;
+    overflow-x: auto;
+    padding: 0px 0px 8px 0px;
+
+    width: 100%;
+    height: 717px;
+
+    ${TranslationContainer} {
+        margin-right: 20px;
     }
 `;

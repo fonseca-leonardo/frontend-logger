@@ -21,11 +21,12 @@ export const DetailModal = styled.div`
     right: 0;
     left: 0;
 
-    z-index: 5;
+    z-index: 2;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
 `;
 
 export const ModalBackdrop = styled.div`

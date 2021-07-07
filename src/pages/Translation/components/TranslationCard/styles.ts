@@ -15,6 +15,10 @@ export const ScrollTranslation = styled.div`
     margin-right: 8px;
     height: 554px;
 
+    @media (max-width: 900px) {
+        height: 270px;
+    }
+
     & ${TranslationContainer}:last-child {
         margin-bottom: 0px;
     }

@@ -1,18 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect, createRef, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import handleViewport from 'react-in-viewport';
 import { FiDownload } from 'react-icons/fi';
 
-import { useLoading } from '../../hooks/loadinPage';
+import { useLoading } from '../../hooks/loadingPage';
 import ITranslate from '../../interfaces/ITranslate';
 
 import TranslationService from '../../services/TranslationService';
 import { IListTranslationResponse } from '../../services/TranslationService/IResponses';
 
-import BookMark from '../../components/BookMark';
 import { PageContainer } from '../../components/PageContainer';
-import TranslationCard from './components/TranslationCard';
 import IconButton from '../../components/IconButton';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import Button from '../../components/Button';
@@ -20,84 +17,32 @@ import Button from '../../components/Button';
 import NewLanguageForm from './components/NewLanguageForm';
 import NewTranslateFrom from './components/NewTranslateForm';
 
-import {
-    TranslationList,
-    TranslationContainer,
-    Container,
-    DefaultTranslationContainer,
-    BookMarkContainer,
-    TitleContainer,
-    TitleActionsContainer,
-} from './styles';
+import { Container, TitleContainer, TitleActionsContainer } from './styles';
 import TranslationModel from '../../models/TranslationModel';
-
-const Block = (props: any) => {
-    const { forwardedRef, children, key } = props;
-    return (
-        <TranslationContainer key={key} ref={forwardedRef}>
-            {children}
-        </TranslationContainer>
-    );
-};
-
-const ViewTranslationContainer = handleViewport(Block, { threshold: 0.5 });
-
-const orderByName = (a: any, b: any) => {
-    if (a.language < b.language) {
-        return -1;
-    }
-    if (a.language > b.language) {
-        return 1;
-    }
-    return 0;
-};
+import LanguageComponent from './components/LanguageComponent';
 
 export default function Translation() {
     const { t } = useTranslation();
-    const [translationCardsRefs, setTranslationCardsRefs] = useState<
-        Array<React.RefObject<HTMLDivElement>>
-    >([]);
-    const [firstLoading, setFirstLoading] = useState<boolean>(true);
-    const [unvisableTranslations, setUnvisableTranslations] = useState<
-        Array<{ ref: React.RefObject<HTMLDivElement> | null; language: string }>
-    >([]);
+
     const [translationRequest, setTranslationRequest] =
         useState<IListTranslationResponse>();
     const [selectedTranslate, setSelectedTranslate] = useState<string | null>();
     const [selectedTranslation, setSelectedTranslation] = useState<
         string | null
     >();
+    const [selectedLanguage, setSelectedLanguage] =
+        useState<TranslationModel>();
     const [openNewLanguage, setOpenNewLanguage] = useState<boolean>(false);
     const [openNewTranslate, setOpenNewTranslate] = useState<boolean>(false);
 
     const { setLoading } = useLoading();
-
-    const handleTranslationVisable = useCallback(
-        (visable: boolean, ref: any, language: string) => {
-            let updateUnvisableTranslations: Array<{
-                ref: React.RefObject<HTMLDivElement> | null;
-                language: string;
-            }> = [];
-            if (visable) {
-                updateUnvisableTranslations = unvisableTranslations.filter(
-                    (el) => el.language !== language,
-                );
-                updateUnvisableTranslations.sort(orderByName);
-                setUnvisableTranslations(updateUnvisableTranslations);
-            } else {
-                setUnvisableTranslations((prev) =>
-                    [...prev, { ref, language }].sort(orderByName),
-                );
-            }
-        },
-        [unvisableTranslations],
-    );
 
     const fetchTranslations = async () => {
         try {
             setLoading(true);
             const result = await TranslationService.listTranslations();
             setTranslationRequest(result);
+            setSelectedLanguage(result.data.translations[0]);
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -131,28 +76,6 @@ export default function Translation() {
     useEffect(() => {
         fetchTranslations();
     }, []);
-
-    useEffect(() => {
-        if (translationRequest && firstLoading) {
-            const ref = translationRequest.data.translations.map(() =>
-                createRef<HTMLDivElement>(),
-            );
-            setTranslationCardsRefs(
-                translationRequest.data.translations.map(
-                    (_, index) => ref[index],
-                ),
-            );
-
-            setUnvisableTranslations(
-                translationRequest.data.translations.map((el, index) => ({
-                    ref: ref[index],
-                    language: el.language,
-                })),
-            );
-
-            setFirstLoading(false);
-        }
-    }, [translationRequest?.data.translations]);
 
     const handleDeleteTranslate = useCallback(async () => {
         try {
@@ -214,7 +137,7 @@ export default function Translation() {
     }, []);
 
     return (
-        <PageContainer>
+        <PageContainer style={{ overflowY: 'auto' }}>
             <TitleContainer>
                 <h1>{t('Translations')}</h1>
                 <TitleActionsContainer>
@@ -230,73 +153,25 @@ export default function Translation() {
                 </TitleActionsContainer>
             </TitleContainer>
             <Container>
-                <div style={{ marginRight: 46 }}>
-                    <BookMarkContainer>
-                        {unvisableTranslations.map(
-                            (el, index) =>
-                                el.language && (
-                                    <BookMark
-                                        key={el.language}
-                                        style={{ top: index * 50 }}
-                                        text={el.language}
-                                        onClick={() => {
-                                            el.ref?.current?.scrollIntoView({
-                                                behavior: 'smooth',
-                                                block: 'nearest',
-                                                inline: 'center',
-                                            });
-                                        }}
-                                    />
-                                ),
-                        )}
-                    </BookMarkContainer>
-                    {translationRequest?.data.default && (
-                        <DefaultTranslationContainer>
-                            <TranslationCard
-                                onSubmit={updateTranslation}
-                                onNewTranslation={() =>
-                                    setOpenNewTranslate(true)
-                                }
-                                onDeleteTranslate={(translate) => {
-                                    setSelectedTranslate(translate);
-                                }}
-                                translation={translationRequest.data.default}
-                            />
-                        </DefaultTranslationContainer>
-                    )}
-                </div>
-                <TranslationList>
-                    {translationRequest?.data.translations.map(
-                        (translation, index) => (
-                            <ViewTranslationContainer
-                                key={translation._id}
-                                onEnterViewport={() =>
-                                    handleTranslationVisable(
-                                        true,
-                                        translationCardsRefs[index],
-                                        translation.language,
-                                    )
-                                }
-                                onLeaveViewport={() =>
-                                    handleTranslationVisable(
-                                        false,
-                                        translationCardsRefs[index],
-                                        translation.language,
-                                    )
-                                }
-                            >
-                                <TranslationCard
-                                    cardRef={translationCardsRefs[index]}
-                                    onSubmit={updateTranslation}
-                                    translation={translation}
-                                    onDeleteTranslation={() =>
-                                        setSelectedTranslation(translation._id)
-                                    }
-                                />
-                            </ViewTranslationContainer>
-                        ),
-                    )}
-                </TranslationList>
+                <LanguageComponent
+                    bookMark={translationRequest?.data.translations}
+                    setSelectedLanguage={setSelectedLanguage}
+                    seletectedLanguage={selectedLanguage}
+                    onSubmit={updateTranslation}
+                    onNewTranslation={() => setOpenNewTranslate(true)}
+                    onDeleteTranslate={(translate) => {
+                        setSelectedTranslate(translate);
+                    }}
+                    translation={translationRequest?.data.default}
+                />
+                <LanguageComponent
+                    onSubmit={updateTranslation}
+                    onNewTranslation={() => setOpenNewTranslate(true)}
+                    onDeleteTranslation={() =>
+                        setSelectedTranslation(selectedLanguage?._id)
+                    }
+                    translation={selectedLanguage}
+                />
             </Container>
             <ConfirmDialog
                 isOpen={!!selectedTranslate}

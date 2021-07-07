@@ -20,7 +20,9 @@ export const Container = styled.header`
 
     width: 100%;
 
-    position: fixed;
+    position: absolute;
+
+    top: 0;
 
     justify-content: space-between;
 
