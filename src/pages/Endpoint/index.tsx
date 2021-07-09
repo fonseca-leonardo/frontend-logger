@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { startOfMonth, endOfMonth, Locale } from 'date-fns';
@@ -7,6 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { FiChevronDown } from 'react-icons/fi';
 
 import { PageContainer } from '../../components/PageContainer';
+import { useTheme } from '../../contexts/theme';
+import Button from '../../components/Button';
+import { IEndpointsRequest } from '../../services/MetricsService/IResponse';
+
 import EndpointDetail from './components/EndpointDetail';
 
 import {
@@ -21,19 +25,8 @@ import {
     ExpandContent,
     SearchContainer,
 } from './styles';
-import { useTheme } from '../../contexts/theme';
-import Button from '../../components/Button';
-
-interface IEndpointsRequest {
-    data: Array<{
-        endpoint: string;
-        total: number;
-        warning: number;
-        success: number;
-        error: number;
-        method: string;
-    }>;
-}
+import { useLoading } from '../../hooks/loadingPage';
+import MetricsService from '../../services/MetricsService';
 
 interface IEndpointDetailRequest {
     data: Array<{
@@ -62,42 +55,10 @@ export default function EndPoint() {
     const [endDate, setEndDate] = useState<Date | null>(endOfMonth(new Date()));
     const [selectedRow, setSelectedRow] = useState<string | null>(null);
 
-    const [chachedEndpointsRequest] = useState<IEndpointsRequest>({
-        data: [
-            {
-                method: 'POST',
-                total: 1350,
-                endpoint: '/login',
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-            {
-                method: 'GET',
-                endpoint: '/auth',
-                total: 1350,
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-            {
-                method: 'GET',
-                endpoint: '/user/extract/teste/a',
-                total: 1350,
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-            {
-                method: 'PATCH',
-                endpoint: '/material',
-                total: 1350,
-                warning: 100,
-                success: 1200,
-                error: 50,
-            },
-        ],
-    });
+    const [endpointMetricsRequest, setEndpointMetricsRequest] =
+        useState<IEndpointsRequest>({
+            data: [],
+        });
     const [endpointDetail] = useState<IEndpointDetailRequest>({
         data: [
             {
@@ -195,6 +156,7 @@ export default function EndPoint() {
     });
     const { theme } = useTheme();
     const { t, i18n } = useTranslation();
+    const { setLoading } = useLoading();
     const selectedLocale = localeKeyValues[i18n.language || 'en'];
 
     const handleSelectRow = useCallback(
@@ -210,6 +172,21 @@ export default function EndPoint() {
     );
 
     const fetchEndpointDetail = useCallback(() => {}, []);
+
+    const fetchEndpointMetrics = useCallback(async () => {
+        try {
+            setLoading(true);
+            const result = await MetricsService.getEndpointMetrics('5m');
+            setEndpointMetricsRequest(result);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchEndpointMetrics();
+    }, []);
 
     return (
         <PageContainer>
@@ -257,22 +234,17 @@ export default function EndPoint() {
                             paddingRight: 12,
                         }}
                     >
-                        {chachedEndpointsRequest.data.map((request) => (
+                        {endpointMetricsRequest.data.map((request) => (
                             <ExpandableRow
-                                key={request.endpoint + request.method}
-                                selected={selectedRow === request.endpoint}
+                                key={request.tag}
+                                selected={selectedRow === request.tag}
                             >
                                 <Expand
-                                    expanded={selectedRow === request.endpoint}
-                                    onClick={() =>
-                                        handleSelectRow(request.endpoint)
-                                    }
+                                    expanded={selectedRow === request.tag}
+                                    onClick={() => handleSelectRow(request.tag)}
                                 >
                                     <EndpointContainer>
-                                        <span>
-                                            {request.method} -{' '}
-                                            {request.endpoint}
-                                        </span>
+                                        <span>{request.tag}</span>
                                     </EndpointContainer>
                                     <StatusContainer>
                                         <span
@@ -303,7 +275,7 @@ export default function EndPoint() {
                                         size={42}
                                     />
                                 </Expand>
-                                {selectedRow === request.endpoint && (
+                                {selectedRow === request.tag && (
                                     <>
                                         <section
                                             style={{

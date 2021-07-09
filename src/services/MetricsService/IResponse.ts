@@ -3,3 +3,13 @@ export interface IDashboardResponse {
         dashUrl: string;
     };
 }
+
+export interface IEndpointsRequest {
+    data: Array<{
+        tag: string;
+        total: number;
+        warning: number;
+        success: number;
+        error: number;
+    }>;
+}
