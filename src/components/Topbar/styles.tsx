@@ -8,7 +8,7 @@ export const StyledIconButton = styled(IconButton)`
 export const Container = styled.header`
     display: flex;
 
-    background: ${({ theme }) => theme.background};
+    background: ${({ theme }) => theme.card.solidBackground};
 
     box-shadow: ${({ theme }) => theme.boxShadow};
 

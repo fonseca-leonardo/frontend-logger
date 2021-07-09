@@ -3,7 +3,7 @@ import ITheme from '../../interfaces/ITheme';
 export default {
     name: 'light',
 
-    background: '#ebebf5',
+    background: 'rgb(244, 245, 245)',
 
     fontColor: '#565656',
 
@@ -25,7 +25,7 @@ export default {
 
     optionArrowColor: 'black',
 
-    successColor: '#43a047',
+    successColor: 'rgb(115, 191, 105)',
     warningColor: '#ff9800',
     errorColor: '#ec5555',
     infoColor: '#2f8fd3',
@@ -45,7 +45,7 @@ export default {
 
         background: '#ffffff40',
 
-        solidBackground: '#f0f0f8',
+        solidBackground: '#fff',
     },
 
     input: {

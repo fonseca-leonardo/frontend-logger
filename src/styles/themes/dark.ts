@@ -2,7 +2,7 @@ import ITheme from '../../interfaces/ITheme';
 
 export default {
     name: 'dark',
-    background: 'linear-gradient(37deg, #2d354a, #352e36)',
+    background: 'rgb(17, 18, 23)',
     fontColor: '#e2e2e2',
     gradient: ['#934bea', '#c147c1', '#f64294'],
     boxShadow: '0 0 40px 3px #00000073',
@@ -14,7 +14,7 @@ export default {
     optionColor: '#352e36',
     optionArrowColor: 'white',
 
-    successColor: '#43a047',
+    successColor: 'rgb(115, 191, 105)',
     warningColor: '#ff9800',
     errorColor: '#d32f2f',
     infoColor: '#2f8fd3',
@@ -29,7 +29,7 @@ export default {
     card: {
         boxShadow: '2px 2px 4px 0px #00000073;',
         background: '#0000006b',
-        solidBackground: '#1d1e25',
+        solidBackground: '#181b1f',
     },
     input: {
         color: '#dbdbdb',

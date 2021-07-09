@@ -115,7 +115,7 @@ interface ExpandableRowProps {
 export const ExpandableRow = styled.div<ExpandableRowProps>`
     min-height: 60px;
     box-shadow: ${({ theme }) => theme.card.boxShadow};
-    background: ${({ theme }) => theme.card.background};
+    background: ${({ theme }) => theme.card.solidBackground};
 
     border-radius: 10px;
     padding: 10px 30px;

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { startOfMonth, endOfMonth } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import { useTranslation } from 'react-i18next';
-import BarChart from './components/BarChart';
-import PieChart from './components/PieChart';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 
-import { TitleContainer, StyledDatePicker } from './styles';
-import LineChart from './components/LineChart';
 import { PageContainer } from '../../components/PageContainer';
+import { useTheme } from '../../contexts/theme';
+import { useLoading } from '../../hooks/loadingPage';
+import MetricsService from '../../services/MetricsService';
+import { IDashboardResponse } from '../../services/MetricsService/IResponse';
 
 export interface IStatusCodeReport {
     data: Array<{
@@ -26,117 +23,53 @@ export interface IRequestCountReport {
 }
 
 export default function DashboardPage() {
-    const [statusCodeReport] = useState<IStatusCodeReport>({
-        data: [
-            {
-                statusCode: 200,
-                count: 2150,
+    const { theme } = useTheme();
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+    const { setLoading } = useLoading();
+    const [fetchDashboardRequest, setFetchDashboardRequest] =
+        useState<IDashboardResponse>({
+            data: {
+                dashUrl: '',
             },
-            {
-                count: 523,
-                statusCode: 400,
-            },
-            {
-                statusCode: 401,
-                count: 345,
-            },
-            {
-                statusCode: 500,
-                count: 500,
-            },
-        ],
-    });
+        });
 
-    const [startDate, setStartDate] = useState<Date | null>(
-        startOfMonth(new Date()),
-    );
-    const [endDate, setEndDate] = useState<Date | null>(endOfMonth(new Date()));
-    const { t } = useTranslation();
+    const fetchDashboard = useCallback(async () => {
+        try {
+            setLoading(true);
+            const result = await MetricsService.getDashboard();
+            setFetchDashboardRequest(result);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
+    }, []);
 
-    const [requestCountReport] = useState<IRequestCountReport>({
-        data: [
-            {
-                date: '2021-06-03T00:00:00.000Z',
-                count: 2150,
-            },
-            {
-                date: '2021-06-04T00:00:00.000Z',
-                count: 2250,
-            },
-            {
-                date: '2021-06-05T00:00:00.000Z',
-                count: 2000,
-            },
-            {
-                date: '2021-06-06T00:00:00.000Z',
-                count: 2300,
-            },
-            {
-                date: '2021-06-07T00:00:00.000Z',
-                count: 1800,
-            },
-            {
-                date: '2021-06-08T00:00:00.000Z',
-                count: 2500,
-            },
-            {
-                date: '2021-06-09T00:00:00.000Z',
-                count: 1000,
-            },
-            {
-                date: '2021-06-10T00:00:00.000Z',
-                count: 1208,
-            },
-            {
-                date: '2021-06-11T00:00:00.000Z',
-                count: 2300,
-            },
-        ],
-    });
+    useEffect(() => {
+        fetchDashboard();
+    }, []);
+
+    useEffect(() => {
+        if (iframeRef.current) {
+            iframeRef.current.contentWindow?.removeEventListener(
+                'keypress',
+                (e) => e.stopPropagation(),
+            );
+        }
+    }, [iframeRef]);
 
     return (
         <PageContainer>
-            <TitleContainer>
-                <h1>{t('Dashboard')}</h1>
-                <div>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
-                        <StyledDatePicker
-                            value={startDate}
-                            onChange={(date) => setStartDate(date)}
-                            format="dd/MM/yyyy"
-                            KeyboardButtonProps={{
-                                disabled: true,
-                                style: { display: 'none' },
-                            }}
-                            label={t('Start Date')}
-                        />
-                        <StyledDatePicker
-                            value={endDate}
-                            onChange={(date) => setEndDate(date)}
-                            format="dd/MM/yyyy"
-                            KeyboardButtonProps={{
-                                disabled: true,
-                                style: { display: 'none' },
-                            }}
-                            label={t('End Date')}
-                        />
-                    </MuiPickersUtilsProvider>
-                </div>
-            </TitleContainer>
-            <div>
-                <LineChart requestCountReport={requestCountReport} />
-            </div>
-            <div
-                style={{
-                    width: '100%',
-                    marginTop: '16px',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                }}
-            >
-                <BarChart statusCodeReport={statusCodeReport} />
-                <PieChart statusCodeReport={statusCodeReport} />
-            </div>
+            {fetchDashboardRequest.data.dashUrl && (
+                <iframe
+                    ref={iframeRef}
+                    id="dashboard"
+                    title="dash"
+                    src={`${fetchDashboardRequest.data.dashUrl}?kiosk=tv&theme=${theme.name}&tab=vizualization&fullscreen&edit`}
+                    width="100%"
+                    height="750px"
+                    frameBorder="0"
+                />
+            )}
         </PageContainer>
     );
 }

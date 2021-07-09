@@ -33,7 +33,6 @@ const LanguageComponent: React.FC<Props> = ({
     onSubmit,
 }) => {
     if (bookMark && setSelectedLanguage) {
-        console.log(translation);
         return (
             <BookMarkerContainer>
                 {bookMark.map(
